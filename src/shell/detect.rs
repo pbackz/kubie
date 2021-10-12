@@ -8,6 +8,7 @@ pub enum ShellKind {
     Bash,
     Fish,
     Zsh,
+    Tcsh,
 }
 
 impl ShellKind {
@@ -16,6 +17,7 @@ impl ShellKind {
             "bash" | "dash" => ShellKind::Bash,
             "fish" => ShellKind::Fish,
             "zsh" => ShellKind::Zsh,
+            "tcsh" => ShellKind::Tcsh,
             _ => return None,
         })
     }

@@ -17,6 +17,7 @@ mod detect;
 mod fish;
 mod prompt;
 mod zsh;
+mod tcsh;
 
 pub struct EnvVars<'n> {
     vars: HashMap<&'n str, OsString>,
@@ -87,6 +88,10 @@ pub fn spawn_shell(settings: &Settings, config: KubeConfig, session: &Session) -
         "KUBIE_FISH_USE_RPROMPT",
         if settings.prompt.fish_use_rprompt { "1" } else { "0" },
     );
+    env_vars.insert(
+        "KUBIE_TCSH_USE_RPROMPT",
+        if settings.prompt.tcsh_use_rprompt { "1" } else { "0" },
+    );
 
     match kind {
         ShellKind::Bash => {
@@ -97,6 +102,9 @@ pub fn spawn_shell(settings: &Settings, config: KubeConfig, session: &Session) -
         }
         ShellKind::Zsh => {
             env_vars.insert("KUBIE_SHELL", "zsh");
+        }
+        ShellKind::Tcsh => {
+            env_vars.insert("KUBIE_SHELL", "tcsh");
         }
     }
 
@@ -110,5 +118,6 @@ pub fn spawn_shell(settings: &Settings, config: KubeConfig, session: &Session) -
         ShellKind::Bash => bash::spawn_shell(&info),
         ShellKind::Fish => fish::spawn_shell(&info),
         ShellKind::Zsh => zsh::spawn_shell(&info),
+        ShellKind::Tcsh => tcsh::spawn_shell(&info),
     }
 }
